@@ -1,13 +1,24 @@
+import io from "socket.io-client";
 import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import ScrollToBottom from "react-scroll-to-bottom";
 
-import "./Chat.css";
+import styles from "./Chat.module.css";
 
-const Chat = ({ socket, username, roomname }) => {
+const ENDPOINT = "http://localhost:5000";
+const socket = io.connect(ENDPOINT);
+
+const Chat = () => {
+  const navigate = useNavigate();
+  const search = useLocation().search;
+  const username = new URLSearchParams(search).get("username");
+  const roomname = new URLSearchParams(search).get("roomname");
+
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
+  const [totalUsersInRoom, setTotalUsersInRoom] = useState(0);
 
-  const timeCreator = () => {
+  const timeStamp = () => {
     return `${new Date(Date.now()).getHours()}:${new Date(
       Date.now()
     ).getMinutes()}`;
@@ -16,10 +27,11 @@ const Chat = ({ socket, username, roomname }) => {
   const messageHandler = async () => {
     if (currentMessage !== "") {
       const messageData = {
-        roomname: roomname,
-        author: username,
+        uid: new Date().getMilliseconds(),
         message: currentMessage,
-        time: timeCreator(),
+        author: username,
+        roomname: roomname,
+        time: timeStamp(),
       };
 
       await socket.emit("send_message", messageData);
@@ -29,38 +41,72 @@ const Chat = ({ socket, username, roomname }) => {
   };
 
   const buttonSendMessageHandler = (event) => {
-    console.log(event);
     if (event.key === "Enter") {
       messageHandler();
     }
   };
 
   useEffect(() => {
+    console.log("useEffect running!");
+    if (username === null || roomname === null) {
+      navigate("/");
+    } else {
+      // create connection
+      console.log("Creating connection");
+      socket.emit("join_room", { username, roomname }, () => {
+        alert("Username already exists!");
+        navigate("/");
+      });
+    }
+  }, [username, roomname, navigate, socket]);
+
+  useEffect(() => {
     socket.on("receive_message", (data) => {
       setMessageList((prevList) => [...prevList, data]);
     });
+
+    socket.on("meta_info", (data) => {
+      setTotalUsersInRoom(data.totalActiveUsers);
+    });
+
+    return () => {
+      console.log("socket disconnection");
+      socket.disconnect();
+    };
   }, [socket]);
 
   return (
-    <div className="chat-window">
-      <div className="chat-header">
-        <p>Live Chat</p>
+    <div className={styles.chatWrapper}>
+      <div className={styles.header}>
+        <p>
+          {roomname} | {totalUsersInRoom} online
+        </p>
+        <p className={styles.logo}>drift</p>
       </div>
-      <div className="chat-body">
-        <ScrollToBottom className="message-container">
+      <div className={styles.body}>
+        <ScrollToBottom className={styles.messageContainer}>
           {messageList.map((item) => {
             return (
               <div
-                className="message"
-                id={username === item.author ? "you" : "other"}
+                key={item.uid}
+                className={`${styles.messageWrapper} ${
+                  username === item.author && styles.myMessageWrapper
+                } ${item.author === "admin" && styles.adminMessageWrapper}`}
               >
-                <div>
-                  <div className="message-content">
+                <div
+                  className={`${styles.message} ${
+                    item.author === "admin" && styles.adminMessage
+                  } ${username === item.author && styles.myMessage}`}
+                >
+                  <div className={styles.messageContent}>
                     <p>{item.message}</p>
                   </div>
-                  <div className="message-meta">
-                    <p id="time">{item.time}</p>
-                    <p id="author">{item.author}</p>
+                  <div className={styles.messageMeta}>
+                    {/* for author messages */}
+                    {item.time && <p id="time">{item.time}</p>}
+                    {item.author !== "admin" && (
+                      <p id="author">{item.author}</p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -68,7 +114,7 @@ const Chat = ({ socket, username, roomname }) => {
           })}
         </ScrollToBottom>
       </div>
-      <div className="chat-footer">
+      <div className={styles.footer}>
         <input
           type="text"
           value={currentMessage}
@@ -78,7 +124,7 @@ const Chat = ({ socket, username, roomname }) => {
           }}
           onKeyPress={buttonSendMessageHandler}
         />
-        <button onClick={messageHandler}>Send</button>
+        <button onClick={messageHandler}>/Send</button>
       </div>
     </div>
   );
