@@ -52,10 +52,10 @@
   /* max-width: 50%; */
 }
 
-.chatWrapper .body .messageWrapper .messageContent p {
-  /* word-wrap: break-word; */
-  /* max-width: 50%; */
-}
+/* .chatWrapper .body .messageWrapper .messageContent p {
+  word-wrap: break-word;
+  max-width: 50%;
+} */
 
 .chatWrapper .body .messageWrapper .messageMeta {
   font-size: 13px;
