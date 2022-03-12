@@ -11,7 +11,9 @@
 
 ## Demo
 
+<p align="center">
 <img src="./readme/demo-video.gif"/>
+</p>
 
 ## Introduction
 
@@ -44,6 +46,11 @@ This app comes with a load a features and an amazing UI, which I call, is Hacker
 
 ```js
 // This will start the backend server
+
+// windows
+npm install | npm run dev
+
+// linux
 npm install && npm run dev
 ```
 
@@ -51,6 +58,11 @@ npm install && npm run dev
 
 ```js
 // This will start the frontend server
+
+// windows
+npm install | npm start
+
+// linux
 npm install && npm start
 ```
 
