@@ -9,17 +9,17 @@
   </p>
 </p>
 
-## Demo
+## 🕹️ Demo
 
 <p align="center">
 <img src="./readme/demo-video.gif" width="600px"/>
 </p>
 
-## Introduction
+## ✨ Introduction
 
 A chat application built with React, Nodejs powered by socket.io, with AES encryption for secure communication.
 
-## Features
+## 💫 Features
 
 This app comes with a load a features and an amazing UI, which I call, is HackerUI 😄:
 
@@ -34,7 +34,7 @@ This app comes with a load a features and an amazing UI, which I call, is Hacker
 <img src="./readme/one.png" width="400px"/>
 </p>
 
-## Development
+## 🔧 Development
 
 ### Requirements
 
