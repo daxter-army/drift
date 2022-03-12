@@ -17,7 +17,7 @@
 
 ## ✨ Introduction
 
-A chat application built with React, Nodejs powered by socket.io, with AES encryption for secure communication.
+A chat application built with React, Nodejs powered by Socket.io, with AES encryption for secure communication.
 
 ## 💫 Features
 
@@ -27,6 +27,7 @@ This app comes with a load a features and an amazing UI, which I call, is Hacker
     * Other users are notified whenever any user enters/leaves the room.
     * All messages are encrypted with AES Encyption.
     * If you are ⌨️ cli/terminal entusiast, then you will love it's hackerUI 💯.
+    * If current username is being used, User is redirected back to the login screen.
 
 <br/>
 <p align="center">
