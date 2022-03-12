@@ -1,18 +1,18 @@
 <p align="center">
   <a href="https://github.com/daxter-army/drift/">
-    <img src="./readme/drift_large.svg" />
+    <img src="./readme/drift_large.svg"/>
   </a>
   <p align="center">
     AES Encrypted messaging
     <br />
-    <a href="https://daxter-army.github.io/key-cast/">Visit</a>
+    <a href="">Visit</a>
   </p>
 </p>
 
 ## Demo
 
 <p align="center">
-<img src="./readme/demo-video.gif"/>
+<img src="./readme/demo-video.gif" width="600px"/>
 </p>
 
 ## Introduction
@@ -30,8 +30,8 @@ This app comes with a load a features and an amazing UI, which I call, is Hacker
 
 <br/>
 <p align="center">
-<img src="./readme/two.png" />
-<img src="./readme/one.png" />
+<img src="./readme/two.png" width="400px"/>
+<img src="./readme/one.png" width="400px"/>
 </p>
 
 ## Development
