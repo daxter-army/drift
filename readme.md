@@ -3,7 +3,7 @@
     <img src="./readme/drift_large.svg"/>
   </a>
   <p align="center">
-    AES Encrypted messaging
+    AES Encrypted Messenger
     <br />
     <a href="">Visit</a>
   </p>
@@ -30,8 +30,8 @@ This app comes with a load a features and an amazing UI, which I call, is Hacker
 
 <br/>
 <p align="center">
-<img src="./readme/two.png" width="400px"/>
-<img src="./readme/one.png" width="400px"/>
+<img src="./readme/two.png" width="350px"/>
+<img src="./readme/one.png" width="350px"/>
 </p>
 
 ## 🔧 Development
