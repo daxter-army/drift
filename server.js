@@ -55,6 +55,7 @@ io.on("connection", (socket) => {
 
   socket.on("send_message", (data) => {
     // console.log(data);
+    // here should the encryption run
     socket.to(data.roomname).emit("receive_message", data);
   });
 
