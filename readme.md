@@ -26,7 +26,7 @@ This app comes with a load a features and an amazing UI, which I call, is Hacker
     * Dedicated rooms for secure and closed communications.
     * Other users are notified whenever any user enters/leaves the room.
     * All messages are encrypted with AES Encyption.
-    * If you are cli/terminal entusiast, then you will love it's hackerUI 💯.
+    * If you are ⌨️ cli/terminal entusiast, then you will love it's hackerUI 💯.
 
 <br/>
 <p align="center">
