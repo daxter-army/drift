@@ -6,6 +6,8 @@ const { Server } = require("socket.io");
 
 const { addUser, getUsersInRoom, removeUser } = require("./users");
 
+const SECRET_KEY = process.env.SECRET_KEY || "8LACKADAMDOESNOTPLAYBYRULE$";
+
 app.use(cors());
 
 const port = process.env.PORT || 5000;
@@ -43,6 +45,7 @@ io.on("connection", (socket) => {
     const totalUsers = getUsersInRoom(data.roomname);
     io.to(data.roomname).emit("meta_info", {
       totalActiveUsers: totalUsers.length,
+      secretKey: SECRET_KEY,
     });
 
     // send the message to the other users
@@ -73,6 +76,7 @@ io.on("connection", (socket) => {
     const totalUsers = getUsersInRoom(leftUser.roomname);
     io.to(leftUser.roomname).emit("meta_info", {
       totalActiveUsers: totalUsers.length,
+      secretKey: SECRET_KEY,
     });
 
     // sending broadcast of person leaving the room

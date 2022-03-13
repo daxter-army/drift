@@ -1,3 +1,4 @@
+import { AES, enc } from "crypto-js";
 import io from "socket.io-client";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -17,6 +18,7 @@ const Chat = () => {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
   const [totalUsersInRoom, setTotalUsersInRoom] = useState(0);
+  const [secretKey, setSecretKey] = useState("erterterterte");
 
   const timeStamp = () => {
     return `${new Date(Date.now()).getHours()}:${new Date(
@@ -28,14 +30,17 @@ const Chat = () => {
     if (currentMessage !== "") {
       const messageData = {
         uid: new Date().getMilliseconds(),
-        message: currentMessage,
+        message: AES.encrypt(currentMessage, secretKey).toString(),
         author: username,
         roomname: roomname,
         time: timeStamp(),
       };
 
       await socket.emit("send_message", messageData);
-      setMessageList((prevList) => [...prevList, messageData]);
+      setMessageList((prevList) => [
+        ...prevList,
+        { ...messageData, message: currentMessage },
+      ]);
       setCurrentMessage("");
     }
   };
@@ -58,22 +63,35 @@ const Chat = () => {
         navigate("/");
       });
     }
-  }, [username, roomname, navigate, socket]);
+  }, [username, roomname, navigate]);
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
-      setMessageList((prevList) => [...prevList, data]);
+      if (data.author !== "admin") {
+        setMessageList((prevList) => [
+          ...prevList,
+          {
+            ...data,
+            message: AES.decrypt(data.message, secretKey).toString(enc.Utf8),
+          },
+        ]);
+      } else {
+        // because admin messages are not encrypted
+        setMessageList((prevList) => [...prevList, data]);
+      }
     });
 
     socket.on("meta_info", (data) => {
       setTotalUsersInRoom(data.totalActiveUsers);
+      console.log(data.secretKey);
+      setSecretKey(data.secretKey);
     });
 
     return () => {
       console.log("socket disconnection");
       socket.disconnect();
     };
-  }, [socket]);
+  }, []);
 
   return (
     <div className={styles.chatWrapper}>
