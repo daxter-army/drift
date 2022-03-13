@@ -83,7 +83,6 @@ const Chat = () => {
 
     socket.on("meta_info", (data) => {
       setTotalUsersInRoom(data.totalActiveUsers);
-      console.log(data.secretKey);
       setSecretKey(data.secretKey);
     });
 
@@ -91,7 +90,7 @@ const Chat = () => {
       console.log("socket disconnection");
       socket.disconnect();
     };
-  }, []);
+  }, [secretKey]);
 
   return (
     <div className={styles.chatWrapper}>
