@@ -23,11 +23,11 @@ A chat application built with React, Nodejs powered by Socket.io, with AES encry
 
 This app comes with a load a features and an amazing UI, which I call, is HackerUI 😄:
 
-    * Dedicated rooms for secure and closed communications.
-    * Other users are notified whenever any user enters/leaves the room.
-    * All messages are encrypted with AES Encyption.
-    * If you are ⌨️ cli/terminal entusiast, then you will love it's hackerUI 💯.
-    * If current username is being used, User is redirected back to the login screen.
+- Dedicated rooms for secure and closed communications.
+- Other users are notified whenever any user enters/leaves the room.
+- All messages are encrypted with **AES Encyption**.
+- If you are ⌨️ cli/terminal entusiast, then you will love it's hackerUI 💯.
+- If current username is being used, User is redirected back to the login screen.
 
 <br/>
 <p align="center">
