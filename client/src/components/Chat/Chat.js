@@ -29,14 +29,11 @@ const Chat = () => {
 
   const messageHandler = async () => {
     if (currentMessage !== "") {
-      console.log("ENCRYPTING");
-      console.log("message:", currentMessage, "\n", "key: ", secretKey.current);
+      console.log("SENDING ENCRYPTED MESSAGE!");
+      // console.log("message:", currentMessage, "\n", "key: ", secretKey.current);
       const messageData = {
         uid: new Date().getMilliseconds(),
-        message: AES.encrypt(
-          currentMessage,
-          "123456789Batman123456"
-        ).toString(),
+        message: AES.encrypt(currentMessage, secretKey.current).toString(),
         author: username,
         roomname: roomname,
         time: timeStamp(),
@@ -73,22 +70,21 @@ const Chat = () => {
   useEffect(() => {
     socket.on("receive_message", (data) => {
       if (data.author !== "admin") {
-        console.log("DECRYPTING");
-        console.log(
-          "message: ",
-          data.message,
-          "\n",
-          "key: ",
-          secretKey.current
-        );
+        console.log("DECRYPTING RECEIVED MESSAGE!");
+        // console.log(
+        //   "message: ",
+        //   data.message,
+        //   "\n",
+        //   "key: ",
+        //   secretKey.current
+        // );
         setMessageList((prevList) => [
           ...prevList,
           {
             ...data,
-            message: AES.decrypt(
-              data.message,
-              "123456789Batman123456"
-            ).toString(enc.Utf8),
+            message: AES.decrypt(data.message, secretKey.current).toString(
+              enc.Utf8
+            ),
           },
         ]);
       } else {
@@ -106,9 +102,8 @@ const Chat = () => {
   useEffect(() => {
     socket.on("meta_info", (data) => {
       setTotalUsersInRoom(data.totalActiveUsers);
-      console.log("Got the key, key: ", data.secretKey);
+      console.log("ROOM INFO RECEIVED!");
       secretKey.current = data.secretKey;
-      // setSecretKey(data.secretKey);
     });
   }, []);
 
