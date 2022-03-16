@@ -101,7 +101,7 @@ const Chat = () => {
   useEffect(() => {
     socket.on("meta_info", (data) => {
       setTotalUsersInRoom(data.totalActiveUsers);
-      console.log("Got the key, key: ", data.key);
+      console.log("Got the key, key: ", data.secretKey);
       setSecretKey(data.secretKey);
     });
   }, []);
