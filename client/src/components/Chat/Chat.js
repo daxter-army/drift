@@ -6,7 +6,10 @@ import ScrollToBottom from "react-scroll-to-bottom";
 
 import styles from "./Chat.module.css";
 
-const ENDPOINT = "http://localhost:5000";
+// const ENDPOINT = "http://localhost:5000";
+// const ENDPOINT = "/";
+const ENDPOINT =
+  "ws://daxter-drift.herokuapp.com/socket.io/?EIO=4&transport=websocket";
 const socket = io.connect(ENDPOINT);
 
 const Chat = () => {
@@ -52,7 +55,6 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    console.log("useEffect running!");
     if (username === null || roomname === null) {
       navigate("/");
     } else {
