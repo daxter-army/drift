@@ -21,7 +21,7 @@ const Chat = () => {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
   const [totalUsersInRoom, setTotalUsersInRoom] = useState(0);
-  const [secretKey, setSecretKey] = useState("");
+  const [secretKey, setSecretKey] = useState("BatmanIsReal");
 
   const timeStamp = () => {
     return `${new Date(Date.now()).getHours()}:${new Date(
