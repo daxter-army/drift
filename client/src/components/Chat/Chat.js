@@ -8,8 +8,7 @@ import styles from "./Chat.module.css";
 
 // const ENDPOINT = "http://localhost:5000";
 // const ENDPOINT = "/";
-const ENDPOINT =
-  "ws://daxter-drift.herokuapp.com/socket.io/?EIO=4&transport=websocket";
+const ENDPOINT = "https://daxter-drift.herokuapp.com";
 const socket = io.connect(ENDPOINT);
 
 const Chat = () => {

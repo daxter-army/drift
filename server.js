@@ -8,7 +8,9 @@ const { Server } = require("socket.io");
 const { addUser, getUsersInRoom, removeUser } = require("./users");
 
 const SECRET_KEY = process.env.SECRET_KEY;
-const homeDir = path.join(__dirname, "home");
+const homeDir = path.join(__dirname, "client", "build");
+
+console.log(homeDir);
 
 app.use(cors());
 app.use(express.static(homeDir));
@@ -18,10 +20,12 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://daxter-drift.herokuapp.com",
     methods: ["GET", "POST"],
   },
 });
+
+// const io = new Server(server);
 
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
