@@ -1,13 +1,11 @@
 import { AES, enc } from "crypto-js";
 import io from "socket.io-client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import ScrollToBottom from "react-scroll-to-bottom";
 
 import styles from "./Chat.module.css";
 
-// const ENDPOINT = "http://localhost:5000";
-// const ENDPOINT = "/";
 const ENDPOINT = "https://daxter-drift.herokuapp.com";
 const socket = io.connect(ENDPOINT);
 
@@ -20,7 +18,8 @@ const Chat = () => {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
   const [totalUsersInRoom, setTotalUsersInRoom] = useState(0);
-  const [secretKey, setSecretKey] = useState("BatmanIsReal");
+  // const [secretKey, setSecretKey] = useState("BatmanIsReal");
+  const secretKey = useRef();
 
   const timeStamp = () => {
     return `${new Date(Date.now()).getHours()}:${new Date(
@@ -31,7 +30,7 @@ const Chat = () => {
   const messageHandler = async () => {
     if (currentMessage !== "") {
       console.log("ENCRYPTING");
-      console.log("message:", currentMessage, "\n", "key: ", secretKey);
+      console.log("message:", currentMessage, "\n", "key: ", secretKey.current);
       const messageData = {
         uid: new Date().getMilliseconds(),
         message: AES.encrypt(
@@ -75,7 +74,13 @@ const Chat = () => {
     socket.on("receive_message", (data) => {
       if (data.author !== "admin") {
         console.log("DECRYPTING");
-        console.log("message: ", data.message, "\n", "key: ", secretKey);
+        console.log(
+          "message: ",
+          data.message,
+          "\n",
+          "key: ",
+          secretKey.current
+        );
         setMessageList((prevList) => [
           ...prevList,
           {
@@ -102,7 +107,8 @@ const Chat = () => {
     socket.on("meta_info", (data) => {
       setTotalUsersInRoom(data.totalActiveUsers);
       console.log("Got the key, key: ", data.secretKey);
-      setSecretKey(data.secretKey);
+      secretKey.current = data.secretKey;
+      // setSecretKey(data.secretKey);
     });
   }, []);
 
