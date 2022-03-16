@@ -1,14 +1,17 @@
 const express = require("express");
 const app = express();
+const path = require("path");
 const http = require("http");
 const cors = require("cors");
 const { Server } = require("socket.io");
 
 const { addUser, getUsersInRoom, removeUser } = require("./users");
 
-const SECRET_KEY = process.env.SECRET_KEY || "8LACKADAMDOESNOTPLAYBYRULE$";
+const SECRET_KEY = process.env.SECRET_KEY;
+const homeDir = path.join(__dirname, "home");
 
 app.use(cors());
+app.use(express.static(homeDir));
 
 const port = process.env.PORT || 5000;
 const server = http.createServer(app);
@@ -33,13 +36,13 @@ io.on("connection", (socket) => {
       return;
     }
 
-    console.log("JOINING ROOM IN SERVER");
+    // console.log("JOINING ROOM IN SERVER");
     // If the user do not pre-exits, then admit it
     socket.join(data.roomname);
 
-    console.log(
-      `User with ID: ${user.user.id}, name: ${user.user.username}, joined room: ${user.user.roomname}`
-    );
+    // console.log(
+    //   `User with ID: ${user.user.id}, name: ${user.user.username}, joined room: ${user.user.roomname}`
+    // );
 
     // updating the user count in the room
     const totalUsers = getUsersInRoom(data.roomname);
@@ -66,7 +69,7 @@ io.on("connection", (socket) => {
     // info of the user who left
     const leftUser = removeUser(socket.id);
 
-    console.log("User Disconnected", socket.id);
+    // console.log("User Disconnected", socket.id);
     // if app reloads, on the main screen
     if (leftUser === undefined) {
       return;
@@ -86,6 +89,10 @@ io.on("connection", (socket) => {
       author: "admin",
     });
   });
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(homeDir, "index.html"));
 });
 
 server.listen(port, () => {
