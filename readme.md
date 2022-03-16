@@ -5,7 +5,7 @@
   <p align="center">
     AES Encrypted Messenger
     <br />
-    <a href="https://daxter-drift.herokuapp.com">Visit</a>
+    <a target="_blank" href="https://daxter-drift.herokuapp.com">Visit</a>
   </p>
 </p>
 
