@@ -7,7 +7,7 @@ const { Server } = require("socket.io");
 
 const { addUser, getUsersInRoom, removeUser } = require("./users");
 
-const SECRET_KEY = process.env.SECRET_KEY;
+const SECRET_KEY = process.env.SECRET_KEY || "iamthere";
 const homeDir = path.join(__dirname, "client", "build");
 
 console.log(homeDir);

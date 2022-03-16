@@ -21,7 +21,7 @@ const Chat = () => {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
   const [totalUsersInRoom, setTotalUsersInRoom] = useState(0);
-  const [secretKey, setSecretKey] = useState("erterterterte");
+  const [secretKey, setSecretKey] = useState("");
 
   const timeStamp = () => {
     return `${new Date(Date.now()).getHours()}:${new Date(
@@ -31,6 +31,7 @@ const Chat = () => {
 
   const messageHandler = async () => {
     if (currentMessage !== "") {
+      console.log("message:", currentMessage, "\n", "key: ", secretKey);
       const messageData = {
         uid: new Date().getMilliseconds(),
         message: AES.encrypt(currentMessage, secretKey).toString(),
@@ -70,6 +71,7 @@ const Chat = () => {
   useEffect(() => {
     socket.on("receive_message", (data) => {
       if (data.author !== "admin") {
+        console.log("message: ", data.message, "\n", "key: ", secretKey);
         setMessageList((prevList) => [
           ...prevList,
           {
