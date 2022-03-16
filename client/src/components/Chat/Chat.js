@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { AES, enc } from "crypto-js";
 import io from "socket.io-client";
 import React, { useEffect, useState } from "react";
@@ -91,7 +92,7 @@ const Chat = () => {
       console.log("socket disconnection");
       socket.disconnect();
     };
-  }, [secretKey]);
+  }, []);
 
   return (
     <div className={styles.chatWrapper}>
