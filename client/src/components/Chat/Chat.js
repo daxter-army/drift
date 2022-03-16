@@ -18,7 +18,6 @@ const Chat = () => {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
   const [totalUsersInRoom, setTotalUsersInRoom] = useState(0);
-  // const [secretKey, setSecretKey] = useState("BatmanIsReal");
   const secretKey = useRef();
 
   const timeStamp = () => {
@@ -107,16 +106,30 @@ const Chat = () => {
     });
   }, []);
 
+  const styleMessageContainerHandler = () => {
+    if (navigator.userAgent.indexOf("Chrome") !== -1) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <div className={styles.chatWrapper}>
       <div className={styles.header}>
         <p>
           {roomname} | {totalUsersInRoom} online
         </p>
-        <p className={styles.logo}>drift</p>
+        <p>{username}</p>
       </div>
       <div className={styles.body}>
-        <ScrollToBottom className={styles.messageContainer}>
+        <ScrollToBottom
+          className={
+            styleMessageContainerHandler()
+              ? styles.CmessageContainer
+              : styles.FmessageContainer
+          }
+        >
           {messageList.map((item) => {
             return (
               <div
