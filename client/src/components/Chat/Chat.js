@@ -71,7 +71,13 @@ const Chat = () => {
   useEffect(() => {
     socket.on("receive_message", (data) => {
       if (data.author !== "admin") {
-        console.log("message: ", data.message, "\n", "key: ", secretKey);
+        console.log(
+          "message: ",
+          data.message,
+          "\n",
+          "key: ",
+          process.env.SECRET_KEY
+        );
         setMessageList((prevList) => [
           ...prevList,
           {
