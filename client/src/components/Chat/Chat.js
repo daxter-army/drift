@@ -34,7 +34,10 @@ const Chat = () => {
       console.log("message:", currentMessage, "\n", "key: ", secretKey);
       const messageData = {
         uid: new Date().getMilliseconds(),
-        message: AES.encrypt(currentMessage, secretKey).toString(),
+        message: AES.encrypt(
+          currentMessage,
+          "123456789Batman123456"
+        ).toString(),
         author: username,
         roomname: roomname,
         time: timeStamp(),
@@ -71,18 +74,15 @@ const Chat = () => {
   useEffect(() => {
     socket.on("receive_message", (data) => {
       if (data.author !== "admin") {
-        console.log(
-          "message: ",
-          data.message,
-          "\n",
-          "key: ",
-          process.env.SECRET_KEY
-        );
+        // console.log("message: ", data.message, "\n", "key: ", secretKey);
         setMessageList((prevList) => [
           ...prevList,
           {
             ...data,
-            message: AES.decrypt(data.message, secretKey).toString(enc.Utf8),
+            message: AES.decrypt(
+              data.message,
+              "123456789Batman123456"
+            ).toString(enc.Utf8),
           },
         ]);
       } else {
