@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { AES, enc } from "crypto-js";
 import io from "socket.io-client";
 import React, { useEffect, useState } from "react";
@@ -31,6 +30,7 @@ const Chat = () => {
 
   const messageHandler = async () => {
     if (currentMessage !== "") {
+      console.log("ENCRYPTING");
       console.log("message:", currentMessage, "\n", "key: ", secretKey);
       const messageData = {
         uid: new Date().getMilliseconds(),
@@ -74,7 +74,8 @@ const Chat = () => {
   useEffect(() => {
     socket.on("receive_message", (data) => {
       if (data.author !== "admin") {
-        // console.log("message: ", data.message, "\n", "key: ", secretKey);
+        console.log("DECRYPTING");
+        console.log("message: ", data.message, "\n", "key: ", secretKey);
         setMessageList((prevList) => [
           ...prevList,
           {
@@ -91,15 +92,18 @@ const Chat = () => {
       }
     });
 
-    socket.on("meta_info", (data) => {
-      setTotalUsersInRoom(data.totalActiveUsers);
-      setSecretKey(data.secretKey);
-    });
-
     return () => {
       console.log("socket disconnection");
       socket.disconnect();
     };
+  }, []);
+
+  useEffect(() => {
+    socket.on("meta_info", (data) => {
+      setTotalUsersInRoom(data.totalActiveUsers);
+      console.log("Got the key, key: ", data.key);
+      setSecretKey(data.secretKey);
+    });
   }, []);
 
   return (
